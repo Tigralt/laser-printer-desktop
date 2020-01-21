@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laser printer interface</title>
+        <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+        <link rel="stylesheet" href="node_modules/vex-js/dist/css/vex.css">
+        <link rel="stylesheet" href="node_modules/vex-js/dist/css/vex-theme-wireframe.css">
+        <link rel="stylesheet" href="node_modules/toastr/build/toastr.min.css">
+        <style>
+        body { margin: 0; }
+        #menu { position: fixed; width: 40px; background-color: #eee; height: 100%; z-index: 999; }
+        #container { margin-left: 40px; }
+        #menu > div { height: 38px; width: 38px; text-align: center; line-height: 40px; border: 1px solid #444; cursor: pointer; color: #444; border-bottom: none; }
+        #menu > div:last-of-type { border-bottom: 1px solid #444; }
+        #menu > div:active, #menu > div:focus { background-color: white; }
+        #toast-container > div { box-shadow: none; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <div id="menu">
+                <div id="menu-save" title="Save"><i class="fas fa-save"></i></div>
+                <div id="menu-delete" title="Delete"><i class="fas fa-trash"></i></div>
+                <div id="menu-download" title="Download"><i class="fas fa-download"></i></div>
+                <div id="menu-settings" title="Settings"><i class="fas fa-cog"></i></div>
+            </div>
+            <div id="container">
+                Loading...
+            </div>
+        </div>
+
+        <script src="node_modules/konva/konva.min.js"></script>
+        <script src="node_modules/file-saver/dist/FileSaver.min.js"></script>
+        <script src="node_modules/vex-js/dist/js/vex.combined.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/toastr/build/toastr.min.js"></script>
+        <script src="config/vex.js"></script>
+        <script src="config/toastr.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
