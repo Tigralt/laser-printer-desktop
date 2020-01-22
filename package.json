@@ -10,7 +10,8 @@
     "build-linux": "electron-packager . laser-printer-desktop --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/512x512.png --prune=true --out=release",
     "deb64": "electron-installer-debian --src release/laser-printer-desktop-linux-x64/ --arch amd64 --dest release/laser-printer-desktop-linux-x64/",
     "win32": "electron-installer-windows --src release/laser-printer-desktop-win32-x64/ --dest release/laser-printer-desktop-win32-x64/",
-    "darwin": "electron-installer-dmg ./release/laser-printer-desktop-darwin-x64/laser-printer-desktop.app laser-printer-desktop"
+    "darwin": "electron-installer-dmg ./release/laser-printer-desktop-darwin-x64/laser-printer-desktop.app laser-printer-desktop",
+    "release": "yarn build && electron-builder"
   },
   "author": "Quentin Cabanes <quentin.cabanes@ece.fr>",
   "license": "MIT",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "electron": "^7.1.9",
+    "electron-builder": "^22.2.0",
     "electron-installer-debian": "^2.0.1",
     "electron-installer-dmg": "^3.0.0",
     "electron-installer-windows": "^2.0.0",
