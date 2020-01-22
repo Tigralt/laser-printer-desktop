@@ -1,10 +1,16 @@
 {
-  "name": "laser-print",
+  "name": "laser-printer-desktop",
+  "description": "A desktop electron application for a laser printer blueprint creation",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-darwin": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release",
+    "build-win": "electron-packager . laser-printer-desktop --overwrite --asar=true --platform=win32 --arch=x64 --prune=true --out=release",
+    "build-linux": "electron-packager . laser-printer-desktop --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/512x512.png --prune=true --out=release",
+    "deb64": "electron-installer-debian --src release/laser-printer-desktop-linux-x64/ --arch amd64 --dest release/laser-printer-desktop-linux-x64/",
+    "win32": "electron-installer-windows --src release/laser-printer-desktop-win32-x64/ --dest release/laser-printer-desktop-win32-x64/",
+    "darwin": "electron-installer-dmg ./release/laser-printer-desktop-darwin-x64/laser-printer-desktop.app laser-printer-desktop"
   },
   "author": "Quentin Cabanes <quentin.cabanes@ece.fr>",
   "license": "MIT",
@@ -16,6 +22,10 @@
     "vex-js": "^4.1.0"
   },
   "devDependencies": {
-    "electron": "^7.1.9"
+    "electron": "^7.1.9",
+    "electron-installer-debian": "^2.0.1",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-installer-windows": "^2.0.0",
+    "electron-packager": "^14.2.0"
   }
 }
