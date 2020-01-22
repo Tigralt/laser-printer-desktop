@@ -35,6 +35,7 @@
   "build": {
     "appId": "org.tigralt.laser-printer-desktop",
     "category": "public.app-category.research",
+    "publish": "github",
     "files": [
       "node_modules/",
       "config/",
@@ -47,12 +48,12 @@
     "dmg": {
       "contents": [
         {
-          "x": 130,
-          "y": 220
+          "x": 110,
+          "y": 150
         },
         {
-          "x": 410,
-          "y": 220,
+          "x": 240,
+          "y": 150,
           "type": "link",
           "path": "/Applications"
         }
