@@ -3,7 +3,7 @@
   "description": "A desktop electron application for a laser printer blueprint creation",
   "author": "Quentin Cabanes",
   "email": "quentin.cabanes@ece.fr",
-  "url": "https://github.com/Tigralt/laser-printer-desktop",
+  "repository": "https://github.com/Tigralt/laser-printer-desktop",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -14,7 +14,8 @@
     "deb64": "electron-installer-debian --src release/laser-printer-desktop-linux-x64/ --arch amd64 --dest release/laser-printer-desktop-linux-x64/",
     "win32": "electron-installer-windows --src release/laser-printer-desktop-win32-x64/ --dest release/laser-printer-desktop-win32-x64/",
     "darwin": "electron-installer-dmg ./release/laser-printer-desktop-darwin-x64/laser-printer-desktop.app laser-printer-desktop",
-    "release": "yarn build && electron-builder"
+    "release": "yarn build && electron-builder",
+    "test": "echo success"
   },
   "license": "MIT",
   "dependencies": {
