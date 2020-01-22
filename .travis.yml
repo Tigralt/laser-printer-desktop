@@ -37,6 +37,11 @@ script:
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
+  branches:
+    only:
+      # release tags
+      - /^v\d+\.\d+\.\d+.*$/
+
+notifications:
+    email:
+        on_success: never
