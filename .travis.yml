@@ -32,6 +32,7 @@ cache:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
+    - $HOME/.npm/_prebuilds
 
 # add git lfs for large file support
 before_install:
@@ -43,9 +44,15 @@ before_install:
 before_script:
   - git lfs pull
 
+install:
+  # On OS X we first need to install Yarn via Homebrew
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install yarn; fi
+  # Install all dependencies listed in your package.json file
+  - yarn
+
 # only deploy to github on a merge to the prod branch
 deploy:
-  provider: script
+  provider: releases
   script: |
     if [ "$TRAVIS_OS_NAME" == osx ]; then
         # deploy on mac
@@ -56,7 +63,7 @@ deploy:
     fi
   skip_cleanup: true
   on:
-    branch: master
+    tags: true
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
