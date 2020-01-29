@@ -15,8 +15,8 @@ let drawingTool = "line";
 // Init
 const stage = new Konva.Stage({
   container: "container",
-  width: gridWidth * baseGridCellSize + 1,
-  height: gridHeight * baseGridCellSize + 1,
+  width: gridWidth * gridCellSize + 1,
+  height: gridHeight * gridCellSize + 1,
   scaleX: gridCellSize / baseGridCellSize,
   scaleY: gridCellSize / baseGridCellSize,
 });
