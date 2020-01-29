@@ -9,6 +9,7 @@ const dragInfo = {
   end: { x: 0, y: 0 }
 };
 let tempObj = null;
+let historyQueue = [];
 
 // Init
 const stage = new Konva.Stage({
@@ -59,7 +60,9 @@ stage.on("mouseup", () => {
   draw_layer.add(tempObj);
   draw_layer.draw();
   temp_layer.destroyChildren();
+  temp_layer.draw();
   tempObj = null;
+  historyQueue = [];
 });
 
 stage.on("mousemove", () => {
@@ -207,6 +210,8 @@ function updateGrid(
 const saveButton = document.getElementById("menu-save");
 const deleteButton = document.getElementById("menu-delete");
 const downloadButton = document.getElementById("menu-download");
+const undoButton = document.getElementById("menu-undo");
+const redoButton = document.getElementById("menu-redo");
 const settingsButton = document.getElementById("menu-settings");
 
 saveButton.addEventListener("click", () => {
@@ -242,6 +247,25 @@ downloadButton.addEventListener("click", () => {
       saveAs(blob, filename + ".txt");
     }
   });
+});
+
+undoButton.addEventListener("click", () => {
+  const last = draw_layer.children.pop();
+  if (last === undefined)
+    return;
+
+  historyQueue.push(last);
+  
+  draw_layer.draw();
+});
+
+redoButton.addEventListener("click", () => {
+  const last = historyQueue.pop();
+  if (last === undefined)
+    return;
+  draw_layer.children.push(last);
+  
+  draw_layer.draw();
 });
 
 settingsButton.addEventListener("click", () => {
@@ -283,3 +307,15 @@ settingsButton.addEventListener("click", () => {
     }
   });
 });
+
+// Keyboard shortcut
+const keycodes = { z : 90, y: 89 };
+document.onkeyup = (e) => {
+  var key = e.which || e.keyCode;
+  
+  if (e.ctrlKey && key == keycodes.z) { // Ctrl+Z
+    undoButton.click();
+  } else if (e.ctrlKey && key == keycodes.y) { // Ctrl+Y
+    redoButton.click();
+  }
+};
