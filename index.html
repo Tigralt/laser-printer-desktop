@@ -11,8 +11,9 @@
         #menu { position: fixed; width: 40px; background-color: #eee; height: 100%; z-index: 999; }
         #container { margin-left: 40px; }
         #menu > div { height: 38px; width: 38px; text-align: center; line-height: 40px; border: 1px solid #444; cursor: pointer; color: #444; border-bottom: none; }
-        #menu > div:last-of-type { border-bottom: 1px solid #444; }
+        #menu > div:last-of-type, #menu .last { border-bottom: 1px solid #444; }
         #menu > div:active, #menu > div:focus { background-color: white; }
+        #menu > div.toggle { background-color: #bbb; }
         #toast-container > div { box-shadow: none; }
         </style>
     </head>
@@ -24,7 +25,10 @@
                 <div id="menu-download" title="Download"><i class="fas fa-download"></i></div>
                 <div id="menu-undo" title="Undo (Ctrl+Z)"><i class="fas fa-undo"></i></div>
                 <div id="menu-redo" title="Redo (Ctrl+Y)"><i class="fas fa-redo"></i></div>
-                <div id="menu-settings" title="Settings"><i class="fas fa-cog"></i></div>
+                <div id="menu-settings" title="Settings" class="last"><i class="fas fa-cog"></i></div>
+                <br>
+                <div id="menu-line" title="Draw line" class="toggle"><i class="fas fa-ruler"></i></div>
+                <div id="menu-rectangle" title="Draw rectangle"><i class="fas fa-square-full"></i></div>
             </div>
             <div id="container">
                 Loading...

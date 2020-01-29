@@ -10,6 +10,7 @@ const dragInfo = {
 };
 let tempObj = null;
 let historyQueue = [];
+let drawingTool = "line";
 
 // Init
 const stage = new Konva.Stage({
@@ -36,18 +37,13 @@ grid_layer.draw();
 
 // Bind events
 stage.on("mousedown", () => {
-  const position = getPointerPosition();
+  const position = toGridCoordinates(getPointerPosition());
 
   dragInfo.event = true;
   dragInfo.start = position;
 
-  tempObj = new Konva.Line({
-    points: [position.x, position.y],
-    stroke: "#000",
-    strokeWidth: baseGridCellSize
-  });
-  tempObj.offsetY(baseGridCellSize * -0.5);
-  tempObj.offsetX(baseGridCellSize * -0.5);
+  tempObj = draw(position);
+
   temp_layer.add(tempObj);
 });
 
@@ -71,10 +67,53 @@ stage.on("mousemove", () => {
   const position = getPointerPosition();
   const pos_start = toGridCoordinates(dragInfo.start);
   const pos_end = toGridCoordinates(position);
-  tempObj.points(drawLine(pos_start, pos_end));
-
+  updateDraw(tempObj, pos_start, pos_end);
+  
   temp_layer.batchDraw();
 });
+
+const draw = (position) => {
+  let obj = null;
+
+  if (drawingTool == "line") {
+    obj = new Konva.Line({
+      points: [position.x, position.y],
+      stroke: "#000",
+      strokeWidth: baseGridCellSize
+    });
+    obj.offsetY(baseGridCellSize * -0.5);
+    obj.offsetX(baseGridCellSize * -0.5);
+  } else if (drawingTool == "rectangle") {
+    obj = new Konva.Rect({
+      fill: "#000",
+      stroke: "#000",
+      strokeWidth: baseGridCellSize,
+      x: position.x,
+      y: position.y,
+      width: 1,
+      height: 1
+    });
+    obj.offsetY(baseGridCellSize * -0.5);
+    obj.offsetX(baseGridCellSize * -0.5);
+  }
+
+  return obj;
+}
+
+const updateDraw = (obj, start, end) => {
+  if (drawingTool == "line") {
+    obj.points(drawLine(start, end));
+  } else if (drawingTool == "rectangle") {
+    let width = end.x - start.x;
+    let height = end.y - start.y;
+
+    if (width == 0) width = 1;
+    if (height == 0) height = 1;
+
+    obj.width(width);
+    obj.height(height);
+  }
+};
 
 // Util function
 function getPointerPosition() {
@@ -145,6 +184,17 @@ function layerObjectToGridMatrix({ children }) {
           }
         }
         break;
+
+      case "Rect":
+        const x = Math.ceil(shape.attrs.x / baseGridCellSize);
+        const y = Math.ceil(shape.attrs.y / baseGridCellSize);
+        const w = Math.floor(shape.attrs.width / baseGridCellSize);
+        const h = Math.floor(shape.attrs.height / baseGridCellSize);
+
+        for (let i=0; i<w; i++)
+          for (let j=0; j<h; j++)
+            grid[y+j][x+i] = 1;
+        break;
     }
   }
 
@@ -213,6 +263,8 @@ const downloadButton = document.getElementById("menu-download");
 const undoButton = document.getElementById("menu-undo");
 const redoButton = document.getElementById("menu-redo");
 const settingsButton = document.getElementById("menu-settings");
+const lineButton = document.getElementById("menu-line");
+const rectangleButton = document.getElementById("menu-rectangle");
 
 saveButton.addEventListener("click", () => {
   localStorage.setItem("canvas", draw_layer.toJSON());
@@ -296,7 +348,6 @@ settingsButton.addEventListener("click", () => {
       localStorage.setItem("gridHeight", gridHeight);
 
       grid_layer.destroyChildren();
-      console.log(data);
       updateGrid(
         grid_layer,
         draw_layer,
@@ -306,6 +357,18 @@ settingsButton.addEventListener("click", () => {
       );
     }
   });
+});
+
+lineButton.addEventListener("click", () => {
+  drawingTool = "line";
+  lineButton.className = "toggle";
+  rectangleButton.className = "";
+});
+
+rectangleButton.addEventListener("click", () => {
+  drawingTool = "rectangle";
+  rectangleButton.className = "toggle";
+  lineButton.className = "";
 });
 
 // Keyboard shortcut
